@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_first_shop/widgets/action_carousel.dart';
@@ -65,57 +66,70 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.symmetric(vertical: 30),
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 120.0),
-              child: Text(
-                'Where would you like to go?',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        body: SafeArea(
+          child: ListView(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 120.0),
+                child: Text(
+                  'Where would you like to go?',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: _icons
-                    .asMap()
-                    .entries
-                    .map((MapEntry map) => _buildIcon(map.key))
-                    .toList()),
-            SizedBox(
-              height: 20.0,
-            ),
-            BuildingCarousel(getFilter(this._selectedIndex)),
-            SizedBox(
-              height: 20.0,
-            ),
-            ActionCarousel(),
-          ],
+              SizedBox(height: 20.0),
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: _icons
+                      .asMap()
+                      .entries
+                      .map((MapEntry map) => _buildIcon(map.key))
+                      .toList()),
+              SizedBox(
+                height: 20.0,
+              ),
+              BuildingCarousel(getFilter(this._selectedIndex)),
+              SizedBox(
+                height: 20.0,
+              ),
+              ActionCarousel(),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentTab,
-        onTap: (int val) {
-          setState(() {
-            _currentTab = val;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.search), title: SizedBox.shrink()),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), title: SizedBox.shrink()),
-          BottomNavigationBarItem(
-              icon: CircleAvatar(
-                radius: 15.0,
-                backgroundImage: NetworkImage(
-                    'https://www.furkanpinar.be/images/profilepic.png'),
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: _currentTab,
+          showElevation: true, // use this to remove appBar's elevation
+          onItemSelected: (index) => setState(() {
+            _currentTab = index;
+          }),
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          items: [
+            BottomNavyBarItem(
+              textAlign: TextAlign.center,
+              icon: Icon(
+                FontAwesomeIcons.home,
+                size: 18,
               ),
-              title: SizedBox.shrink())
-        ],
-      ),
-    );
+              title: Text('Home'),
+              activeColor: Colors.blue,
+            ),
+            BottomNavyBarItem(
+                textAlign: TextAlign.center,
+                icon: Icon(
+                  FontAwesomeIcons.search,
+                  size: 18,
+                ),
+                title: Text('Zoeken'),
+                activeColor: Colors.blue),
+            BottomNavyBarItem(
+                textAlign: TextAlign.center,
+                icon: Icon(
+                  FontAwesomeIcons.userAlt,
+                  size: 18,
+                ),
+                title: Text('Profile'),
+                activeColor: Colors.blue),
+          ],
+        ));
   }
 }

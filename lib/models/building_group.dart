@@ -13,7 +13,7 @@ class BuildingGroup {
 List<Building> buildings = [
   Building(
       id: 1,
-      name: 'Red Cross department in Heusden-Zolder',
+      name: 'Red Cross department',
       imageUrl: 'assets/images/rHeusden.jpg',
       address: 'Rode Kruisstraat 1',
       zipcode: '3550',

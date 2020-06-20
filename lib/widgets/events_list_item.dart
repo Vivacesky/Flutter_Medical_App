@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_first_shop/models/event_model.dart';
 
 class EventListItem extends StatelessWidget {
@@ -49,7 +50,18 @@ class EventListItem extends StatelessWidget {
                           color: Colors.grey,
                           fontSize: 13.0,
                           fontWeight: FontWeight.w600),
-                    )
+                    ),
+                    FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      color: Colors.blue,
+                      onPressed: () {},
+                      child: Text(
+                        'Details',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ],
                 ),
               ],

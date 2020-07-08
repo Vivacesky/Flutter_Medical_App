@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_first_shop/models/event_model.dart';
 
 class EventListItem extends StatelessWidget {

@@ -30,6 +30,9 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   auto_animated: any
   bottom_navy_bar: ^5.4.0
+  http: 0.12.1
+  flutter_spinkit: "^4.1.2"
+  intl: 0.16.1
 
 dev_dependencies:
   flutter_test:

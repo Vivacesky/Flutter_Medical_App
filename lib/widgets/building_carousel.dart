@@ -1,15 +1,42 @@
+import 'dart:convert';
 import 'package:auto_animated/auto_animated.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:my_first_shop/models/building_group.dart';
 import 'package:my_first_shop/models/building_model.dart';
 import 'package:my_first_shop/screens/building_screen.dart';
+import 'package:my_first_shop/services/building_service.dart';
 
-class BuildingCarousel extends StatelessWidget {
-  List<Building> _buildings;
+class BuildingCarousel extends StatefulWidget {
+  String _groupFilter;
 
   BuildingCarousel(String filter) {
-    _buildings = buildings.where((b) => b.group == filter).toList();
+    this._groupFilter = filter;
+  }
+
+  @override
+  _BuildingCarouselState createState() => _BuildingCarouselState();
+}
+
+class _BuildingCarouselState extends State<BuildingCarousel> {
+  List<Building> _originalList = new List<Building>();
+  List<Building> _filteredList = new List<Building>();
+  bool _isLoading = true;
+
+  initState() {
+    super.initState();
+    _fetchBuildings();
+  }
+
+  _fetchBuildings() {
+    BuildingService.getBuildings().then((response) {
+      setState(() {
+        Iterable list = json.decode(response.body);
+        _originalList =
+            list.map((building) => Building.fromJson(building)).toList();
+        _isLoading = false;
+      });
+    });
   }
 
   Widget _buildItem(
@@ -17,7 +44,7 @@ class BuildingCarousel extends StatelessWidget {
     int index,
     Animation<double> animation,
   ) {
-    Building building = _buildings[index];
+    Building building = _filteredList[index];
     return FadeTransition(
       opacity: Tween<double>(
         begin: 0,
@@ -138,6 +165,9 @@ class BuildingCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _filteredList = _originalList
+        .where((building) => building.group == widget._groupFilter)
+        .toList();
     return Column(
       children: <Widget>[
         Padding(
@@ -166,12 +196,20 @@ class BuildingCarousel extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-            height: 300.0,
-            child: LiveList(
-                scrollDirection: Axis.horizontal,
-                itemCount: _buildings.length,
-                itemBuilder: _buildItem))
+        _isLoading
+            ? Container(
+                height: 300.0,
+                child: SpinKitSquareCircle(
+                  color: Colors.blue,
+                  size: 50.0,
+                ),
+              )
+            : Container(
+                height: 300.0,
+                child: LiveList(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _filteredList.length,
+                    itemBuilder: _buildItem))
       ],
     );
   }
